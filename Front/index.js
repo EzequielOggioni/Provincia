@@ -1,5 +1,6 @@
 addEventListener("load", load)
 
+
 function $(valor) {
     return document.getElementById(valor);
 }
@@ -8,12 +9,18 @@ function $(valor) {
 function load() {
     enviarMensajeAlServidor("/Provincias/Backend/", cargarOpcionesProvincia);
     $("provincia").addEventListener("change", cambiarProvincia);
+  
+    
 }
 
 function cambiarProvincia() {
     var valorProvincia = $("provincia").value;
-    enviarMensajeAlServidor("/Provincias/Backend/?provincia="+ valorProvincia,cargarOpcionesLocalidad)
+    enviarMensajeAlServidor("/Provincias/Backend/?provincia="+ valorProvincia,cargarOpcionesLocalidad);
+    enviarMensajeAlServidor("/Provincias/Backend/?imagen="+ valorProvincia, function(data){
+        $("imagen").src = "/Provincias/Backend" + data;
+    });
 }
+
 
 function cargarOpcionesProvincia(valor) {
     var provincias = JSON.parse(valor);
@@ -23,8 +30,10 @@ function cargarOpcionesProvincia(valor) {
     provincias.forEach(element => {
         opciones.push('<option value="' + element.valor + '">' + element.nombre + '</option>');
     });
+
     $("provincia").innerHTML = opciones;
 }
+
 
 function cargarOpcionesLocalidad(valor) {
     var localidades = JSON.parse(valor);
@@ -36,6 +45,9 @@ function cargarOpcionesLocalidad(valor) {
     });
     $("localidad").innerHTML = opciones;
 }
+
+
+
 
 
 function enviarMensajeAlServidor(servidor, funcionARealizar) {
@@ -59,6 +71,10 @@ function enviarMensajeAlServidor(servidor, funcionARealizar) {
         }
     }
 
+ 
     //envio el mensaje    
     xmlhttp.send();
 }
+
+
+//#endregion
