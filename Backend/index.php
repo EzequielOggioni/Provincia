@@ -1,5 +1,116 @@
 <?php   
 
+// comentamos una linea
+
+/*
+    comentamos multiples lineas
+*/
+
+# comentar una linea
+
+
+include "helper/funciones.php";
+include "helper/singleton.php";
+
+require "entidades/IInterfaz.php";
+require "entidades/localidad.php";
+require "entidades/provincia.php";
+/*
+$bsas = new Provincia('Buenos Aires');
+$stafe = new Provincia('Santa Fe');
+var_dump($bsas);
+mostrarValor($stafe->GetNombre());
+
+$sing =  Singleton::getinstance();
+
+mostrarValor($sing->mostrarAlgo());
+
+return;
+*/
+
+escribirArchivo('02.txt','prueba');
+return;
+
+
+if ( isset($_GET['imagen'])){
+    $valorImagen = $_GET['imagen'];
+    crearArchivo($valorImagen .'.txt');    
+    switch ($valorImagen) {
+        case '2':
+            echo "/img/MiImagen.png";
+            break;
+        case '06':
+            echo "/img/06.jpg";
+            break;
+        case '14':
+            echo "/img/14.png";
+            break;
+
+        case '42':
+            echo "/img/42.png";
+            break;
+        case '82':
+            echo "/img/82.png";
+            break;
+                    
+        default:
+            echo "/img/404.jpg";
+            break;
+                    
+        }
+
+    //echo "/img/MiImagen.png";
+    return;
+}
+
+
+
+
+/*
+$miVariable = "carolina perez"; 
+
+echo "mi variable es :" , $miVariable ;
+
+$miVariable2 = 452;
+print("<br> variable2 = $miVariable2 ");
+
+$miVariable3 = false; 
+printf(" variable 1 %s, variable2 : %d ",$miVariable,$miVariable2 );
+print("<br>");
+
+
+mostrarValor( strlen($miVariable));
+
+mostrarVALOR( strtolower($miVariable));
+
+mostrarVALOR( strtoupper($miVariable));
+
+mostrarVALOR( substr($miVariable,0,8));
+
+mostrarVALOR( strcmp($miVariable, "carolina perez"));
+
+mostrarVALOR( ucfirst($miVariable));
+
+mostrarVALOR( ucwords($miVariable));
+
+$miArray =  array("Uno" => 10, "Dos" => 2,"Tres" => 3,"tres" => 5, "cinco" => 8 );
+
+krsort($miArray);
+
+echo "<br> aca toy";
+
+
+echo (int)(true xor true);
+echo "<br>";
+echo (int)(false and true);
+echo "<br>";
+
+
+foreach($miArray as $k => $valor ){
+    echo "<br>";echo $k," - " , $valor;
+}
+*/
+
 if ( isset($_GET['provincia'])){
     $valor = $_GET['provincia'];
     
@@ -83,5 +194,5 @@ if ( isset($_GET['provincia'])){
         echo '[{"valor":"54","nombre":"Misiones"},{"valor":"74","nombre":"San Luis"},{"valor":"70","nombre":"San Juan"},{"valor":"30","nombre":"Entre Ríos"},{"valor":"78","nombre":"Santa Cruz"},{"valor":"62","nombre":"Río Negro"},{"valor":"26","nombre":"Chubut"},{"valor":"14","nombre":"Córdoba"},{"valor":"50","nombre":"Mendoza"},{"valor":"46","nombre":"La Rioja"},{"valor":"10","nombre":"Catamarca"},{"valor":"42","nombre":"La Pampa"},{"valor":"86","nombre":"Santiago del Estero"},{"valor":"18","nombre":"Corrientes"},{"valor":"82","nombre":"Santa Fe"},{"valor":"90","nombre":"Tucumán"},{"valor":"58","nombre":"Neuquén"},{"valor":"66","nombre":"Salta"},{"valor":"22","nombre":"Chaco"},{"valor":"34","nombre":"Formosa"},{"valor":"38","nombre":"Jujuy"},{"valor":"02","nombre":"Ciudad Autónoma de Buenos Aires"},{"valor":"06","nombre":"Buenos Aires"},{"valor":"94","nombre":"Tierra del Fuego, Antártida e Islas del Atlántico Sur"}]';
 
     }        
-
+  
 ?>
