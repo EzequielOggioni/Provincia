@@ -27,13 +27,14 @@ function EscribirArchivo($path,$texto){
 
 function LeerArchivo($path){
    $arch =  fopen($path, 'r' );
+   $salida ="";
    while(!feof($arch) ){
-       mostrarValor( fgets($arch));
+    $salida = $salida.fgets($arch);
    }
    
 
    fclose($arch);
-
+    return $salida;
 }
 
 

@@ -1,5 +1,5 @@
 addEventListener("load", load)
-
+miServidor="/Provincias/Backend";
 
 function $(valor) {
     return document.getElementById(valor);
@@ -7,17 +7,16 @@ function $(valor) {
 
 
 function load() {
-    enviarMensajeAlServidor("/Provincias/Backend/", cargarOpcionesProvincia);
+    enviarMensajeAlServidor(miServidor, cargarOpcionesProvincia);
     $("provincia").addEventListener("change", cambiarProvincia);
-  
-    
+    $("btnEnviar").addEventListener("click",enviarDatosPost);   
 }
 
 function cambiarProvincia() {
     var valorProvincia = $("provincia").value;
-    enviarMensajeAlServidor("/Provincias/Backend/?provincia="+ valorProvincia,cargarOpcionesLocalidad);
-    enviarMensajeAlServidor("/Provincias/Backend/?imagen="+ valorProvincia, function(data){
-        $("imagen").src = "/Provincias/Backend" + data;
+    enviarMensajeAlServidor(miServidor + "/?provincia="+ valorProvincia,cargarOpcionesLocalidad);
+    enviarMensajeAlServidor(miServidor + "/?imagen="+ valorProvincia, function(data){
+        $("imagen").src = miServidor +  data;
     });
 }
 
@@ -76,5 +75,43 @@ function enviarMensajeAlServidor(servidor, funcionARealizar) {
     xmlhttp.send();
 }
 
+
+function enviarDatosPost (){
+     
+    var nombreArchivo = "imagen.jpg";
+    var datos = new FormData();
+    datos.append("usuario",$("txtNombre").value);
+    datos.append("pass",$("txtPass").value);
+    
+    datos.append("archivo",$("archivo").files[0]);
+    
+
+    //declaro el objeto
+     var xmlhttp = new XMLHttpRequest();
+
+     // indico hacia donde va el mensaje
+     xmlhttp.open("POST", miServidor + "/", true);
+     //seteo el evento
+     xmlhttp.onreadystatechange = function () {
+         //Veo si llego la respuesta del servidor
+         if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+             //Reviso si la respuesta es correcta
+             if (xmlhttp.status == 200) {
+                revisarLogueo(xmlhttp.responseText);
+             }
+             else {
+                 alert("ocurrio un error");
+             }
+         }
+     }
+     xmlhttp.setRequestHeader("enctype","multipart/form-data");
+     xmlhttp.setRequestHeader("contant-Disposition", 'attachment; filename="' +  nombreArchivo + '"');
+     //envio el mensaje    
+     xmlhttp.send(datos);
+}
+
+function revisarLogueo(valor){
+
+}
 
 //#endregion

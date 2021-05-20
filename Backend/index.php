@@ -14,24 +14,19 @@ include "funciones.php";
 require "Entidades/Iinterfaz.php";
 require "Entidades/localidades.php";
 require "Entidades/provincia.php";
+if(isset($_POST['usuario'])){
 
-
-/*
-if ( isset($_GET['imagen'])){
-    $valorImagen = $_GET['imagen'];
-    switch ($valorImagen) {
-        case '2':
-            echo "/img/MiImagen.png";
-            break;
-        
-        default:
-        echo "/img/404.jpg";
-            break;
-    }
-    //echo "/img/MiImagen.png";
+if(isset($_FILES['archivo'])){
+    $destino = 'uploads/'.$_POST['usuario'].'-'.$_FILES['archivo']["name"];
+    move_uploaded_file($_FILES['archivo']['tmp_name'],$destino);
+    return;
+}
+    var_dump($_POST);
     return;
 }
 
+
+/*
 $misProvincias = Array("54" => new Provincia("Misiones","54"),"74" => new Provincia("San Luis","74"));
 
 echo $misProvincias['74']->nombre;
@@ -164,8 +159,20 @@ if ( isset($_GET['provincia'])){
         }
     
     }else{
-        
-        echo '[{"valor":"54","nombre":"Misiones"},{"valor":"74","nombre":"San Luis"},{"valor":"70","nombre":"San Juan"},{"valor":"30","nombre":"Entre Ríos"},{"valor":"78","nombre":"Santa Cruz"},{"valor":"62","nombre":"Río Negro"},{"valor":"26","nombre":"Chubut"},{"valor":"14","nombre":"Córdoba"},{"valor":"50","nombre":"Mendoza"},{"valor":"46","nombre":"La Rioja"},{"valor":"10","nombre":"Catamarca"},{"valor":"42","nombre":"La Pampa"},{"valor":"86","nombre":"Santiago del Estero"},{"valor":"18","nombre":"Corrientes"},{"valor":"82","nombre":"Santa Fe"},{"valor":"90","nombre":"Tucumán"},{"valor":"58","nombre":"Neuquén"},{"valor":"66","nombre":"Salta"},{"valor":"22","nombre":"Chaco"},{"valor":"34","nombre":"Formosa"},{"valor":"38","nombre":"Jujuy"},{"valor":"02","nombre":"Ciudad Autónoma de Buenos Aires"},{"valor":"06","nombre":"Buenos Aires"},{"valor":"94","nombre":"Tierra del Fuego, Antártida e Islas del Atlántico Sur"}]';
+        $lecturaPcias = LeerArchivo('provincias.json');
+    
+        $array = json_decode ($lecturaPcias);
+        $misProvincias = array();
+        foreach($array as $datos){
+            $temp_provincia = new Provincia();
+            foreach($datos as $atr=>$valor){
+                $temp_provincia->{$atr} =$valor;
+
+            }
+            array_push( $misProvincias , $temp_provincia);
+        }
+        var_dump($misProvincias);
+        echo json_encode($misProvincias);
 
     }        
   

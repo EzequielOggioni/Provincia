@@ -17,10 +17,9 @@
             return Provincia::$cantidad;
         }
 
-        public function __construct($nombre, $valor){
+        public function __construct(){
             parent::__construct();
-            $this->nombre = $nombre;
-            $this->valor = $valor;
+            
             Provincia::$cantidad++;
         }
 
