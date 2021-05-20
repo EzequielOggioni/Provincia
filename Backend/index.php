@@ -158,6 +158,7 @@ if ( isset($_GET['provincia'])){
 
         }
     
+  
     }else{
         $lecturaPcias = LeerArchivo('provincias.json');
     
@@ -171,9 +172,7 @@ if ( isset($_GET['provincia'])){
             }
             array_push( $misProvincias , $temp_provincia);
         }
-        var_dump($misProvincias);
         echo json_encode($misProvincias);
 
     }        
-  
 ?>
