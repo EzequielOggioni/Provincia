@@ -1,5 +1,5 @@
 addEventListener("load", load)
-
+var RutaBackend = "/Provincias/Backend/"
 
 function $(valor) {
     return document.getElementById(valor);
@@ -7,17 +7,17 @@ function $(valor) {
 
 
 function load() {
-    enviarMensajeAlServidor("/Provincias/Backend/", cargarOpcionesProvincia);
+    enviarMensajeAlServidor(RutaBackend, cargarOpcionesProvincia);
     $("provincia").addEventListener("change", cambiarProvincia);
-   
+   $("btnEnviar").addEventListener("click",EnviarDatos);
     
 }
 
 function cambiarProvincia() {
     var valorProvincia = $("provincia").value;
-    enviarMensajeAlServidor("/Provincias/Backend/?provincia="+ valorProvincia,cargarOpcionesLocalidad);
-    enviarMensajeAlServidor("/Provincias/Backend/?imagen="+ valorProvincia, function (data){
-        $('imagen').src = "/Provincias/Backend/"+data;
+    enviarMensajeAlServidor(RutaBackend+"?provincia="+ valorProvincia,cargarOpcionesLocalidad);
+    enviarMensajeAlServidor(RutaBackend+"?imagen="+ valorProvincia, function (data){
+        $('imagen').src = RutaBackend+data;
 });
 }
 
@@ -76,5 +76,34 @@ function enviarMensajeAlServidor(servidor, funcionARealizar) {
     xmlhttp.send();
 }
 
+
+function EnviarDatos(){
+     //declaro el objeto
+     var xmlhttp = new XMLHttpRequest();
+     var datos = new FormData();
+     datos.append("usuario",$("txtUsuario").value);
+     datos.append("pass",$("txtPass").value);
+     datos.append("archivo",$("archivo").files[0]);
+     
+     // indico hacia donde va el mensaje
+     xmlhttp.open("POST", RutaBackend, true);
+     //seteo el evento
+     xmlhttp.onreadystatechange = function () {
+         //Veo si llego la respuesta del servidor
+         if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+             //Reviso si la respuesta es correcta
+             if (xmlhttp.status == 200) {
+                 alert(xmlhttp.responseText);
+             }
+             else {
+                 alert("ocurrio un error");
+             }
+         }
+     }
+ 
+     xmlhttp.setRequestHeader('enctype', 'multipart/form-data');
+     //envio el mensaje    
+     xmlhttp.send(datos);
+}
 
 //#endregion

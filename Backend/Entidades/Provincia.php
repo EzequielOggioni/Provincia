@@ -36,8 +36,8 @@
         function metodo(){
             
         }
-        public function __construct($nombre){
-            parent::__construct($nombre);
+        public function __construct(){
+            parent::__construct();
             $this->departamentos =  array();
             
             Provincia::$cantidad++;

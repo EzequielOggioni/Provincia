@@ -2,10 +2,10 @@
 
 abstract class Localidad
 {
-    protected $nombre;
+    public  $nombre;
 
-     function __construct($nombre){
-        $this->nombre = $nombre;
+     function __construct(){
+      
     }
 
     abstract function  MostrarValor();

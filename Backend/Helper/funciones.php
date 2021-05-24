@@ -23,18 +23,20 @@
 
     function leerArchivo($nombre){
         //r
-
+        $salida ="";
         $arch = fopen($nombre,'r');
 
         //mostrarValor(fread($arch,filesize($nombre)));
 
         while (!feof($arch)){
 
-            mostrarValor(fgets($arch));
+            $salida .= fgets($arch);
         }
         
 
         fclose($arch);
+
+        return $salida ;
 
     }
 
