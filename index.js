@@ -102,7 +102,7 @@ function EnviarDatos(){
      }
  
      xmlhttp.setRequestHeader('Content-Type', 'multipart/form-data');
-     
+     xmlhttp.setRequestHeader('enctype', 'multipart/form-data');
      //envio el mensaje    
      xmlhttp.send(datos);
 }
