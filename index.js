@@ -1,5 +1,5 @@
 addEventListener("load", load)
-var RutaBackend = "/Provincias/Backend/"
+var RutaBackend = "https://apiloginbetran.herokuapp.com/"
 
 function $(valor) {
     return document.getElementById(valor);
