@@ -101,10 +101,8 @@ function EnviarDatos(){
          }
      }
  
-     xmlhttp.setRequestHeader('enctype', 'multipart/form-data');
-     xmlhttp.setRequestHeader('Access-Control-Allow-Headers', 'x-test-header, Origin, X-Requested-With, Content-Type, Accept');
-     xmlhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-     xmlhttp.setRequestHeader('Access-Control-Allow-Origin', 'https://beltranlogin.herokuapp.com');
+     xmlhttp.setRequestHeader('Content-Type', 'multipart/form-data');
+     
      //envio el mensaje    
      xmlhttp.send(datos);
 }
