@@ -1,6 +1,5 @@
 addEventListener("load", load)
-// var servidor = "http://localhost:666/Provincia"
-var servidor = "https://apiloginbetran.herokuapp.com/Provincia"
+var RutaBackend = "https://apiloginbetran.herokuapp.com"
 
 function $(valor) {
     return document.getElementById(valor);
@@ -8,21 +7,17 @@ function $(valor) {
 
 
 function load() {
-    
-    //enviarMensajeAlServidor(servidor , cargarOpcionesProvincia);
-    enviarMensajeAlServidor(servidor , cargarOpcionesProvincia);
+    enviarMensajeAlServidor(RutaBackend, cargarOpcionesProvincia);
     $("provincia").addEventListener("change", cambiarProvincia);
-   $("btnSubir").addEventListener("click",SubirArchivo);
-   $("mostrarPost").addEventListener("click",EnviarPost);
-
+   $("btnEnviar").addEventListener("click",EnviarDatos);
     
 }
 
 function cambiarProvincia() {
     var valorProvincia = $("provincia").value;
-    enviarMensajeAlServidor(servidor + "/Departamento/" + valorProvincia,cargarOpcionesLocalidad);
-    enviarMensajeAlServidor(servidor + "/Imagen/" + valorProvincia, function (data){
-        $('imagen').src = servidor +data;
+    enviarMensajeAlServidor(RutaBackend+"?provincia="+ valorProvincia,cargarOpcionesLocalidad);
+    enviarMensajeAlServidor(RutaBackend+"?imagen="+ valorProvincia, function (data){
+        $('imagen').src = RutaBackend+data;
 });
 }
 
@@ -52,6 +47,9 @@ function cargarOpcionesLocalidad(valor) {
 }
 
 
+
+
+
 function enviarMensajeAlServidor(servidor, funcionARealizar) {
 
     //declaro el objeto
@@ -79,118 +77,22 @@ function enviarMensajeAlServidor(servidor, funcionARealizar) {
 }
 
 
-function enviarMensajeAlServidorPost(servidor, funcionARealizar) {
-
-    //declaro el objeto
-    var xmlhttp = new XMLHttpRequest();
-
-    // indico hacia donde va el mensaje
-    xmlhttp.open("POST", servidor, true);
-    //seteo el evento
-    xmlhttp.onreadystatechange = function () {
-        //Veo si llego la respuesta del servidor
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-            //Reviso si la respuesta es correcta
-            if (xmlhttp.status == 200) {
-                funcionARealizar(xmlhttp.responseText);
-            }
-            else {
-                alert("ocurrio un error");
-            }
-        }
-    }
-
-   // var valor = new FormData();
-   // valor.append("miNombre","llego al server");
-    var envioDatos = { };
-    envioDatos.valor = 25;
-
-    //envio el mensaje    
-    xmlhttp.send("hola mundo" );
-}
-
-
-function SubirArchivo() {
-
-   // var nombreArchivo = "archivo.jpg"
-  //  var file= $("archivo").files[0];
-    //declaro el objeto
-   // var fileContent = new FormData();
-    //fileContent.append("archivo",file);
-    //fileContent.append("nombre", "nombre");
-    var xmlhttp = new XMLHttpRequest();
-    // indico hacia donde va el mensaje
-    xmlhttp.open("POST", servidor , true);
-    //seteo el evento
-    xmlhttp.onreadystatechange = function () {
-        //Veo si llego la respuesta del servidor
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-            //Reviso si la respuesta es correcta
-            if (xmlhttp.status == 200) {
-                funcionARealizar(xmlhttp.responseText);
-            }
-            else {
-                alert("ocurrio un error");
-            }
-        }
-    }
-    //xmlhttp.setRequestHeader('enctype', "multipart/form-data");
-    //xmlhttp.setRequestHeader('Content-Disposition', 'attachment; filename="' + nombreArchivo + '"');
-    //envio el mensaje    
-    xmlhttp.send("hola mundo");
-}
-
-
-//#endregion
-
-
-
-function EnviarJSONPost() {
-
-  
-    var xmlhttp = new XMLHttpRequest();
- 
-    xmlhttp.open("POST", servidor + '/HolaMundo/', true);
-    xmlhttp.onreadystatechange = function () {
-        //Veo si llego la respuesta del servidor
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-            //Reviso si la respuesta es correcta
-            if (xmlhttp.status == 200) {
-                alert(xmlhttp.responseText);
-            }
-            else {
-                alert("ocurrio un error");
-            }
-        }
-    }
-
-    var obje = new FormData();
-    obje.append("mensaje", $("valor").value );
-    //envio el mensaje    
-    xmlhttp.send(obje);
-}
-
-function EnviarPost() {
-
-  
-var persona ={};
-// persona.nombre = $('txtnombre').value;
-// persona.Apellido = $('txtApellido').value;
-// persona.Edad = $('txtEdad').value;
-// persona.Pass = $('txtPass').value;
-// persona.Usuario = $('txtUsuario').value;
-
-
+function EnviarDatos(){
+     //declaro el objeto
      var xmlhttp = new XMLHttpRequest();
-  
-     xmlhttp.open("POST", servidor + '/HolaMundo/Esta no es la pass', true);
+     var datos = new FormData();
+     datos.append("usuario",$("txtUsuario").value);
+     datos.append("pass",$("txtPass").value);
+     datos.append("archivo",$("archivo").files[0]);
+     
+     // indico hacia donde va el mensaje
+     xmlhttp.open("POST", RutaBackend, true);
+     //seteo el evento
      xmlhttp.onreadystatechange = function () {
          //Veo si llego la respuesta del servidor
          if (xmlhttp.readyState == XMLHttpRequest.DONE) {
              //Reviso si la respuesta es correcta
              if (xmlhttp.status == 200) {
-                 localStorage.setItem('token', "el super hash")
-                 
                  alert(xmlhttp.responseText);
              }
              else {
@@ -198,15 +100,11 @@ var persona ={};
              }
          }
      }
+ 
+     xmlhttp.setRequestHeader('Content-Type', 'multipart/form-data');
+     xmlhttp.setRequestHeader('enctype', 'multipart/form-data');
+     //envio el mensaje    
+     xmlhttp.send(datos);
+}
 
-
-     //var cuerpo = new FormData();
-     //cuerpo.append('pass',  $('txtValor').value);
-    //xmlhttp.send(cuerpo);
-   //envio el mensaje simple    
-    //xmlhttp.send('"hola mund"');
-   
-   //envio objeto seriealizado
-    xmlhttp.send(JSON.stringify({"usuario":"miusuario", "pass":"miPass"}));
-  //  xmlhttp.send(JSON.stringify(persona));
-    }
+//#endregion
